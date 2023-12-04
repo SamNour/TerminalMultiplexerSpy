@@ -1,0 +1,54 @@
+config:
+  - id: init
+    type: lua
+    code: |
+      print("Hello, Lua!")
+      flag = "abcd-efgh-ijkl"
+ 
+  - id: detect flag
+    type: keyboard
+    trigger: ^test$
+    code: |
+      print("Here is your flag - ",flag)
+      ret = sendKeys("pwd")
+      print("Current directory is: ",ret)
+ 
+  - id: simple trigger
+    type: term
+    trigger: i saw a bird
+    code: |
+      print("and the bird flew low")
+      print("term controller: ", runningPrg())
+
+
+
+
+[Init] # 1
+type = lua
+id = 
+code = 
+
+[Init_2]
+type = lua
+id = 
+code = 
+
+[output 1]
+type = keyboard
+id = 
+code = 
+
+[output 1]
+type = keyboard
+id = 
+code = 
+
+[output 1]
+type =  term
+id = 
+code = 
+
+[output 1]
+type =  term
+id = 
+code = 

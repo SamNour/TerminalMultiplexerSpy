@@ -1,0 +1,25 @@
+# you check the trigger and then check the type and then run the code 
+# wether it will be lua code or rust 
+
+[init]
+type_ = "lua" 
+trigger = ""
+code= """
+print("Hello, Lua!")
+"""
+
+[detect_flag]
+type = "keyboard"
+trigger = "help" # or "done" or anyother command I send cmds in the background
+code= """
+"""
+
+
+
+[simple_trigger]
+type = "lua"
+trigger = ""
+code= """
+print("Hello, Lua!")
+flag = "abcd-efgh-ijkl"
+"""

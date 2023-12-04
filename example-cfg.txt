@@ -1,0 +1,137 @@
+[.lua.]
+flag = "xxxxx-yyyy-zzzzz-wwwww"    # creates a lua global variable named "flag” to "abc-def"
+setIntel = "false" # creates a lua global variable named "other_var" in the lua environment, with contents "tiago”
+gdb = "false"
+var2 = "this is var2"
+lua_msg = "Inital message"
+a="0"
+b="0"
+
+# This stuff is read from the keyboard…
+
+[+^help$+] 
+msg = "This is the dark lord \n $flag" # string interpolation
+send = false
+lua="""death = false
+    gdb = "false"
+    txt = "hello man"
+    prg_running()
+    
+    interact()
+    print(txt)
+    test = 0000
+    lua_msg = "Lua message from help" """
+
+[+^test$+]
+lua = """
+    if prg_running() then
+        print("running")
+    else
+        print("NOT running")
+    end
+    """
+
+[+^test2$+]
+lua = """
+    ret = interact("/usr/bin/ls")
+    if contains(ret,"intel") then
+            print("well done here is you key")
+        else
+            print("Almost there")
+    end"""
+
+[+^testing$+]
+lua = """
+    if prg_running() then
+        ret = interact("/usr/bin/ls","true","false")  
+        if contains(ret,"intel") then
+            print("well done here is you key")
+        else
+            print("Almost there")
+        end     
+    else  
+        print("Program is not even running!!")  
+    end""" 
+ 
+
+#works perfectly
+[+^help (.+)$+] 
+send = false
+msg = "You typed in help me" # string interpolation
+lua="""a=5
+    c = 3
+    if a == 5 and c == 3 then
+    b =12222
+    gdb = "false"
+    lua_msg ="Lua message from help me or some other things next to help me"
+    setIntel = "false"
+    else
+    b = 3
+    end
+  """
+
+[+^gdb$+]
+send = true
+lua = """a=5
+    b=53
+    print(a)
+    gdb= "true"
+    """
+msg = "gdb"
+
+[+^gdb (.+)$+]
+lua = """a=5
+    b=53
+    gdb= "true"
+    """
+msg = "gdb ./a.out"
+send = true
+
+[+^done$+]
+lua = """ if prg_running() then
+        print("program is running)
+    else 
+        print("nothing is running")
+    end"""
+
+[+^done$+]
+send = false
+msg = "Well done here is your $flag"
+lua = """if gdb == "true" and setIntel == "true" then
+    print("are you entertained")
+    flag = "HAPPY-BIRTH-DAY-TO-YOU-!!!"
+    end
+    """
+
+[+^intel$+]
+lua ="""setIntel = "true" """ 
+
+[+^set disassembly-flvor intel$+]
+lua ="""setIntel = "true" """ 
+
+[+^set (.+)=(.+)$+]
+msg = "OK."
+send = false
+
+
+[+^get (.+)$+]
+send = false
+msg = "You typed get (.+)"
+
+
+[+^lua (.+)$+]
+lua = """1"""
+send = false
+
+
+[+^set disassembly-flavor intel$+]
+var4 = true
+
+
+# This stuff is triggered from the console
+[-^hello, world$-] # This stuff is triggered from the console
+msg = "Your flag is $flag"
+[-^help$-]
+msg = "help is from the console"
+——
+
